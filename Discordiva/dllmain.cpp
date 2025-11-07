@@ -1,64 +1,11 @@
 ﻿#include "pch.h"
 
 #include "memoryReading.h"
-#include "DiscordSetup.h"
-
-// ─────────────────────────────────────────────
-// State tracking
-// ─────────────────────────────────────────────
-
-constexpr const char* DIFFICULTY_TYPES[] =
-{
-    "Easy",
-    "Normal",
-    "Hard",
-    "Extreme",
-    "Ex Extreme"
-};
+#include "discordSetup.h"
+#include "formatting.h"
+#include "constants.h"
 
 
-// ─────────────────────────────────────────────
-// Helper functions
-// ─────────────────────────────────────────────
-inline std::string FormatTwoDigits(int number)
-{
-    std::ostringstream oss;
-    oss << std::setw(2) << std::setfill('0') << number;
-    return oss.str();
-}
-
-inline std::string FormatStarNumber(float value)
-{
-    std::ostringstream oss;
-    if(std::fabs(value - std::round(value)) < 1e-9)
-        oss << static_cast<int>(std::round(value));
-    else
-        oss << std::fixed << std::setprecision(1) << value;
-    return oss.str();
-}
-
-inline std::string FormatPercentage(float value)
-{
-    float truncated = std::trunc(value * 100.0f) / 100.0f;
-    std::ostringstream oss;
-    oss << std::fixed << std::setprecision(2) << truncated;
-    return oss.str();
-}
-
-inline std::string FormatTime(float seconds)
-{
-    int total = static_cast<int>(seconds);
-    int minutes = total / 60;
-    int secs = total % 60;
-
-    std::ostringstream oss;
-    oss << FormatTwoDigits(minutes) << ":" << FormatTwoDigits(secs);
-    return oss.str();
-}
-
-// ─────────────────────────────────────────────
-// Main logic
-// ─────────────────────────────────────────────
 void ConstructActivityData()
 {
     static bool previousState = -1;
@@ -71,12 +18,13 @@ void ConstructActivityData()
     if(!isPlaying)
     {
         if(isNew)
-            UpdateDiscordActivity(u8"🏠 In menu", "", isNew);
+            UpdateDiscordActivity("", stateNames[StateNames::InMenu], stateNames[StateNames::InMenu], isNew);
         return;
     }
 
     // Game data
     std::string songName = ReadStringFromMemory(SONG_NAME_ADDRESS);
+    std::string artist = ReadStringFromMemory(ARTIST_ADDRESS);
 
     int difficultyIndex = ReadNumberFromMemory<int>(DIFFICULTY_TYPE_ADDRESS);
     const char* difficultyName = DIFFICULTY_TYPES[difficultyIndex];
@@ -94,34 +42,65 @@ void ConstructActivityData()
 
     bool isPaused = ReadNumberFromMemory<bool>(PAUSED_ADDRESS);
 
+    bool isNoFail = ReadNumberFromMemory<bool>(IS_NO_FAIL_ADDRESS);
+    bool isPractice = ReadNumberFromMemory<bool>(IS_PRACTICE_ADDRESS);
+    bool isMV = ReadNumberFromMemory<bool>(IS_MV_ADDRESS);
+
+    int modifierIndex = ReadNumberFromMemory<int>(MODIFIER_ADDRESS);
+
     if(elapsed > maxDuration)
         elapsed = maxDuration;
 
-    // Determine clear status
-    bool isClear = clearPercentage >= border;
-    const char* clearEmoji = isClear ? u8"✅" : u8"❌";
-
-    // Determine state text
-    std::string state;
-    if(isPaused)
-        state = "Paused";
-    else if(elapsed < maxDuration && previousElapsedDuration != elapsed)
-        state = "Playing";
-    else if(elapsed == maxDuration)
-        state = isClear ? "Clear!" : "Not clear...";
-    else
-        state = "Drop out...";
-
-    // Build details
-    std::ostringstream details;
-    details << "[" << difficultyName << " " << FormatStarNumber(starAmount) << u8"⭐] "
-        << songName
-        << " | [" << FormatTime(elapsed) << " / " << FormatTime(maxDuration) << "]"
-        << " | Clear(" << clearEmoji << "): " << FormatPercentage(clearPercentage)
+    std::ostringstream statess;
+    statess << "Clear: " << FormatPercentage(clearPercentage)
         << "% | Score: " << score
         << " | Combo: " << combo;
 
-    UpdateDiscordActivity(state.c_str(), details.str().c_str(), isNew);
+    std::ostringstream difficulty;
+    difficulty << "[" << difficultyName << " " << FormatStarNumber(starAmount) << u8"⭐] ";
+
+    const char* gameMode = "";
+    if(isMV)
+    {
+        gameMode = "[MV] ";
+        statess.str("");
+        statess.clear();
+
+        difficulty.str("");
+        difficulty.clear();
+    }
+    else if(isPractice)
+    {
+        gameMode = "[Practice] ";
+        statess.str("");
+        statess.clear();
+    }
+    else if(isNoFail)
+    {
+        gameMode = "[No Fail] ";
+    }
+
+    bool isClear = clearPercentage >= border;
+
+    // Determine state text
+    std::string smallText;
+    if(isPaused)
+        smallText = stateNames[StateNames::Paused];
+    else if(elapsed < maxDuration && previousElapsedDuration != elapsed)
+        smallText = stateNames[StateNames::Playing];
+    else if(elapsed == maxDuration)
+        smallText = isClear ? stateNames[StateNames::Clear] : stateNames[StateNames::Notclear];
+    else
+        smallText = isMV ? stateNames[StateNames::Paused] : stateNames[StateNames::Notclear];
+
+    const char* modifier = MODIFIER_TYPES[modifierIndex];
+
+    // Build details
+    std::ostringstream details;
+    details << gameMode << modifier << difficulty.str() << songName << u8" — " << artist
+        << " | [" << FormatTime(elapsed) << " / " << FormatTime(maxDuration) << "]";
+
+    UpdateDiscordActivity(statess.str().c_str(), details.str().c_str(), smallText.c_str(), isNew);
     previousElapsedDuration = elapsed;
 }
 
@@ -142,7 +121,7 @@ extern "C"
         auto now = Clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - lastUpdate).count();
 
-        if(elapsed >= 5)
+        if(elapsed >= ACTIVITY_UPDATE_DELAY)
         {
             ConstructActivityData();
             lastUpdate = now;

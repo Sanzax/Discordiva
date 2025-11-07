@@ -81,6 +81,12 @@
     <ClInclude Include="discord\voice_manager.h">
       <Filter>Header Files\discord</Filter>
     </ClInclude>
+    <ClInclude Include="formatting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -135,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="memoryReading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="formatting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

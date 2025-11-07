@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "memoryReading.h"
+#include "constants.h"
 
 uintptr_t baseAddress = 0;
 
@@ -8,7 +9,7 @@ void InitializeBaseAddress()
     if(baseAddress)
         return;
 
-    if(HMODULE hModule = GetModuleHandleA(APP_NAME))
+    if(HMODULE hModule = GetModuleHandleA(MODULE_NAME))
         baseAddress = reinterpret_cast<uintptr_t>(hModule);
 }
 

@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="constants.h" />
     <ClInclude Include="discordSetup.h" />
     <ClInclude Include="discord\achievement_manager.h" />
     <ClInclude Include="discord\activity_manager.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="discord\types.h" />
     <ClInclude Include="discord\user_manager.h" />
     <ClInclude Include="discord\voice_manager.h" />
+    <ClInclude Include="formatting.h" />
     <ClInclude Include="memoryReading.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -222,6 +224,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="formatting.cpp" />
     <ClCompile Include="memoryReading.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
