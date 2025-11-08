@@ -157,9 +157,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="src\constants.h" />
-    <ClInclude Include="src\discordSetup.h" />
+    <ClInclude Include="src\discordManager.h" />
     <ClInclude Include="src\discord\achievement_manager.h" />
     <ClInclude Include="src\discord\activity_manager.h" />
     <ClInclude Include="src\discord\application_manager.h" />
@@ -180,9 +179,10 @@
     <ClInclude Include="src\formatting.h" />
     <ClInclude Include="src\logger.h" />
     <ClInclude Include="src\memoryReading.h" />
+    <ClInclude Include="src\Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\discordSetup.cpp" />
+    <ClCompile Include="src\discordManager.cpp" />
     <ClCompile Include="src\discord\achievement_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -229,6 +229,7 @@
     <ClCompile Include="src\formatting.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\memoryReading.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

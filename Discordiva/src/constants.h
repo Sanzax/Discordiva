@@ -25,7 +25,9 @@ constexpr const char* MODULE_NAME = "DivaMegaMix.exe";
 
 constexpr long long DISCORD_APP_ID = 1434669921664503892;
 
-constexpr float ACTIVITY_UPDATE_DELAY= 5.0f;
+constexpr float ACTIVITY_UPDATE_INTERVAL= 5.0f;
+constexpr float DISCORD_INIT_INTERVAL = 5.0f;
+
 
 
 constexpr const char* DIFFICULTY_TYPES[] =
@@ -54,7 +56,7 @@ enum StateNames
     Notclear,
 };
 
-constexpr const char* stateNames[] =
+constexpr const char* STATE_NAMES[] =
 {
     "In Menu",
     "Playing",
@@ -64,10 +66,9 @@ constexpr const char* stateNames[] =
 };
 
 const std::unordered_map<std::string, std::string> SMALL_IMAGE_NAMES = {
-    {stateNames[StateNames::InMenu], "home"},
-    {stateNames[StateNames::Playing], "playing"},
-    {stateNames[StateNames::Paused], "paused"},
-    {stateNames[StateNames::Clear], "clear"},
-    {stateNames[StateNames::Notclear], "not_clear"},
+    {STATE_NAMES[StateNames::InMenu], "home"},
+    {STATE_NAMES[StateNames::Playing], "playing"},
+    {STATE_NAMES[StateNames::Paused], "paused"},
+    {STATE_NAMES[StateNames::Clear], "clear"},
+    {STATE_NAMES[StateNames::Notclear], "not_clear"},
 };
-
