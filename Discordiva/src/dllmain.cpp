@@ -1,4 +1,7 @@
-﻿#include "pch.h"
+﻿#include <sstream>
+#include <iostream>
+#include <string>
+#include <chrono>
 
 #include "memoryReading.h"
 #include "discordSetup.h"
@@ -18,7 +21,7 @@ void ConstructActivityData()
     if(!isPlaying)
     {
         if(isNew)
-            UpdateDiscordActivity("", stateNames[StateNames::InMenu], stateNames[StateNames::InMenu], isNew);
+            UpdateDiscordActivity("", stateNames[StateNames::InMenu], stateNames[StateNames::InMenu], isNew, "");
         return;
     }
 
@@ -80,6 +83,8 @@ void ConstructActivityData()
         gameMode = "[No Fail] ";
     }
 
+
+
     bool isClear = clearPercentage >= border;
 
     // Determine state text
@@ -100,7 +105,7 @@ void ConstructActivityData()
     details << gameMode << modifier << difficulty.str() << songName << u8" — " << artist
         << " | [" << FormatTime(elapsed) << " / " << FormatTime(maxDuration) << "]";
 
-    UpdateDiscordActivity(statess.str().c_str(), details.str().c_str(), smallText.c_str(), isNew);
+    UpdateDiscordActivity(statess.str().c_str(), details.str().c_str(), smallText.c_str(), isNew, songName.c_str());
     previousElapsedDuration = elapsed;
 }
 

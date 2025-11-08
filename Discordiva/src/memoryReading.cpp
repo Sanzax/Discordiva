@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "memoryReading.h"
 #include "constants.h"
 

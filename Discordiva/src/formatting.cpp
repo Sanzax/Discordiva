@@ -1,4 +1,7 @@
-#include "pch.h"
+#include <string>
+#include <sstream>
+#include <iomanip>
+
 #include "formatting.h"
 
 std::string FormatStarNumber(float value)

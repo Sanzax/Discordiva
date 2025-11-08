@@ -17,7 +17,7 @@ constexpr uintptr_t PAUSED_ADDRESS = 0x0CC0CBF4;
 constexpr uintptr_t FOCUS_LOST_ADDRESS = 0x00DC1401;
 constexpr uintptr_t IS_PLAYING_ADDRESS = 0x012C2330;
 constexpr uintptr_t IS_MV_ADDRESS = 0x0CC6E428;
-constexpr uintptr_t IS_PRACTICE_ADDRESS = 0x012EF6E8;
+constexpr uintptr_t IS_PRACTICE_ADDRESS = 0x0CC10404;
 constexpr uintptr_t IS_NO_FAIL_ADDRESS = 0x0114982A;
 constexpr uintptr_t MODIFIER_ADDRESS = 0x016E2BB8;
 

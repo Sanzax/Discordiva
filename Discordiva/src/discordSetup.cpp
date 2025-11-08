@@ -1,4 +1,6 @@
-#include "pch.h"
+#include <sstream>
+#include <chrono>
+#include <iostream>
 #include "discordSetup.h"
 #include "constants.h"
 
@@ -12,18 +14,18 @@ void InitDiscord()
 
     if(!corePtr || result != discord::Result::Ok)
     {
-        printf("Failed to initialize Discord Core!\n");
+        std::cout << "Failed to initialize Discord Core!\n";
         return;
     }
 
-    printf("Discord initialized!\n");
+    std::cout << "Discord initialized successfully!\n";
 
     core = corePtr;
 
     activity.SetType(discord::ActivityType::Playing);
 }
 
-void UpdateDiscordActivity(const char* state, const char* details, const char* smallText, bool isNew)
+void UpdateDiscordActivity(const char* state, const char* details, const char* smallText, bool isNew, const char* songName)
 {
     if(isNew)
     {
@@ -37,7 +39,8 @@ void UpdateDiscordActivity(const char* state, const char* details, const char* s
     discord::ActivityAssets& assets = activity.GetAssets();
     try
     {
-        assets.SetSmallImage(SMALL_IMAGE_NAMES.at(smallText).c_str());
+        const char* imageName = SMALL_IMAGE_NAMES.at(smallText).c_str();
+        assets.SetSmallImage(imageName);
     }
     catch(const std::out_of_range&)
     {
@@ -49,6 +52,6 @@ void UpdateDiscordActivity(const char* state, const char* details, const char* s
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result)
     {
         if(result != discord::Result::Ok)
-            printf("Failed to update Discord activity!\n");
+            std::cout << "Failed to update Discord activity!\n";
     });
 }

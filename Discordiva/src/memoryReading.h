@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <string>
+#include <Windows.h>
 
 extern uintptr_t baseAddress;
 

@@ -141,8 +141,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;DISCORDIVA_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,88 +151,82 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>$(ProjectDir)\x64\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\lib\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;discord_game_sdk.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>E:\Pelit\Steam\steamapps\common\Hatsune Miku Project DIVA Mega Mix Plus\mods\Discordiva\Discordiva.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="discordSetup.h" />
-    <ClInclude Include="discord\achievement_manager.h" />
-    <ClInclude Include="discord\activity_manager.h" />
-    <ClInclude Include="discord\application_manager.h" />
-    <ClInclude Include="discord\core.h" />
-    <ClInclude Include="discord\discord.h" />
-    <ClInclude Include="discord\event.h" />
-    <ClInclude Include="discord\ffi.h" />
-    <ClInclude Include="discord\image_manager.h" />
-    <ClInclude Include="discord\lobby_manager.h" />
-    <ClInclude Include="discord\network_manager.h" />
-    <ClInclude Include="discord\overlay_manager.h" />
-    <ClInclude Include="discord\relationship_manager.h" />
-    <ClInclude Include="discord\storage_manager.h" />
-    <ClInclude Include="discord\store_manager.h" />
-    <ClInclude Include="discord\types.h" />
-    <ClInclude Include="discord\user_manager.h" />
-    <ClInclude Include="discord\voice_manager.h" />
-    <ClInclude Include="formatting.h" />
-    <ClInclude Include="memoryReading.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\discordSetup.h" />
+    <ClInclude Include="src\discord\achievement_manager.h" />
+    <ClInclude Include="src\discord\activity_manager.h" />
+    <ClInclude Include="src\discord\application_manager.h" />
+    <ClInclude Include="src\discord\core.h" />
+    <ClInclude Include="src\discord\discord.h" />
+    <ClInclude Include="src\discord\event.h" />
+    <ClInclude Include="src\discord\ffi.h" />
+    <ClInclude Include="src\discord\image_manager.h" />
+    <ClInclude Include="src\discord\lobby_manager.h" />
+    <ClInclude Include="src\discord\network_manager.h" />
+    <ClInclude Include="src\discord\overlay_manager.h" />
+    <ClInclude Include="src\discord\relationship_manager.h" />
+    <ClInclude Include="src\discord\storage_manager.h" />
+    <ClInclude Include="src\discord\store_manager.h" />
+    <ClInclude Include="src\discord\types.h" />
+    <ClInclude Include="src\discord\user_manager.h" />
+    <ClInclude Include="src\discord\voice_manager.h" />
+    <ClInclude Include="src\formatting.h" />
+    <ClInclude Include="src\memoryReading.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="discordSetup.cpp" />
-    <ClCompile Include="discord\achievement_manager.cpp">
+    <ClCompile Include="src\discordSetup.cpp" />
+    <ClCompile Include="src\discord\achievement_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\activity_manager.cpp">
+    <ClCompile Include="src\discord\activity_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\application_manager.cpp">
+    <ClCompile Include="src\discord\application_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\core.cpp">
+    <ClCompile Include="src\discord\core.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\image_manager.cpp">
+    <ClCompile Include="src\discord\image_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\lobby_manager.cpp">
+    <ClCompile Include="src\discord\lobby_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\network_manager.cpp">
+    <ClCompile Include="src\discord\network_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\overlay_manager.cpp">
+    <ClCompile Include="src\discord\overlay_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\relationship_manager.cpp">
+    <ClCompile Include="src\discord\relationship_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\storage_manager.cpp">
+    <ClCompile Include="src\discord\storage_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\store_manager.cpp">
+    <ClCompile Include="src\discord\store_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\types.cpp">
+    <ClCompile Include="src\discord\types.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\user_manager.cpp">
+    <ClCompile Include="src\discord\user_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="discord\voice_manager.cpp">
+    <ClCompile Include="src\discord\voice_manager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="formatting.cpp" />
-    <ClCompile Include="memoryReading.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\formatting.cpp" />
+    <ClCompile Include="src\memoryReading.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
