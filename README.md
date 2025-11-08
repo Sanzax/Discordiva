@@ -6,7 +6,7 @@ Discord Rich Presence integration for **Hatsune Miku: Project DIVA Mega Mix+**. 
 
 ## Features
 
-The mod provides granular, real-time Discord Rich Presence data including:
+The mod provides Discord Rich Presence data including:
 
 * **Song Difficulty** and **Star Rating**
 * **Song Name**
