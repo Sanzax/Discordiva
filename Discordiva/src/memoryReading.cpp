@@ -1,4 +1,4 @@
-
+#include "logger.h"
 #include "memoryReading.h"
 #include "constants.h"
 
@@ -10,12 +10,20 @@ void InitializeBaseAddress()
         return;
 
     if(HMODULE hModule = GetModuleHandleA(MODULE_NAME))
+    {
         baseAddress = reinterpret_cast<uintptr_t>(hModule);
+        return;
+    }
+
+    LogWarning("Failed to initialize base address...");
 }
 
 std::string ReadStringFromMemory(uintptr_t offset)
 {
-    size_t maxLen = 256;
+    if(!baseAddress)
+        InitializeBaseAddress();
+
+    size_t maxLen = 64;
     const uintptr_t address = baseAddress + offset;
     if(!address)
         return std::string();

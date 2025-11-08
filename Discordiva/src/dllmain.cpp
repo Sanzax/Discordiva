@@ -3,6 +3,7 @@
 #include <string>
 #include <chrono>
 
+#include "logger.h"
 #include "memoryReading.h"
 #include "discordSetup.h"
 #include "formatting.h"
@@ -113,6 +114,7 @@ extern "C"
 {
     __declspec(dllexport) void Init()
     {
+        Log("Initialized!");
         InitializeBaseAddress();
         InitDiscord();
     }

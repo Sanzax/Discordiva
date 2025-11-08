@@ -178,6 +178,7 @@
     <ClInclude Include="src\discord\user_manager.h" />
     <ClInclude Include="src\discord\voice_manager.h" />
     <ClInclude Include="src\formatting.h" />
+    <ClInclude Include="src\logger.h" />
     <ClInclude Include="src\memoryReading.h" />
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +227,7 @@
     </ClCompile>
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\formatting.cpp" />
+    <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\memoryReading.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "discordSetup.h"
 #include "constants.h"
+#include "logger.h"
 
 discord::Core* core = nullptr;
 discord::Activity activity{};
@@ -14,11 +15,11 @@ void InitDiscord()
 
     if(!corePtr || result != discord::Result::Ok)
     {
-        std::cout << "Failed to initialize Discord Core!\n";
+        LogWarning("Failed to initialize Discord Core!");
         return;
     }
 
-    std::cout << "Discord initialized successfully!\n";
+    Log("Discord initialized successfully!");
 
     core = corePtr;
 
@@ -52,6 +53,6 @@ void UpdateDiscordActivity(const char* state, const char* details, const char* s
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result)
     {
         if(result != discord::Result::Ok)
-            std::cout << "Failed to update Discord activity!\n";
+            LogWarning("Failed to update Discord activity!");
     });
 }

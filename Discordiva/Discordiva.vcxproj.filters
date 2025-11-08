@@ -87,6 +87,9 @@
     <ClInclude Include="src\discord\voice_manager.h">
       <Filter>Header Files\discord</Filter>
     </ClInclude>
+    <ClInclude Include="src\logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\discordSetup.cpp">
@@ -142,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="src\discord\voice_manager.cpp">
       <Filter>Source Files\discord</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
