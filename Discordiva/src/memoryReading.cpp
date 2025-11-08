@@ -1,4 +1,4 @@
-#include "logger.h"
+﻿#include "logger.h"
 #include "memoryReading.h"
 #include "constants.h"
 
@@ -23,46 +23,83 @@ std::string ReadStringFromMemory(uintptr_t offset)
     if(!baseAddress)
         InitializeBaseAddress();
 
-    size_t maxLen = 64;
+    constexpr size_t maxLen = 64;
     const uintptr_t address = baseAddress + offset;
+
     if(!address)
-        return std::string();
+        return {};
 
     MEMORY_BASIC_INFORMATION mbi = {};
-    if(VirtualQuery(reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi)) == 0 || mbi.State != MEM_COMMIT)
-        return std::string();
-
-    // 1. Check if memory holds a pointer to a heap string
-    uintptr_t potentialHeapPtr = 0;
-    memcpy(&potentialHeapPtr, reinterpret_cast<const void*>(address), sizeof(uintptr_t));
-
-    if(potentialHeapPtr &&
-       VirtualQuery(reinterpret_cast<LPCVOID>(potentialHeapPtr), &mbi, sizeof(mbi)) != 0 &&
-       mbi.State == MEM_COMMIT)
+    if(VirtualQuery(reinterpret_cast<LPCVOID>(address), &mbi, sizeof(mbi)) == 0 ||
+       mbi.State != MEM_COMMIT)
     {
-        // Read a limited portion to avoid buffer overruns
-        const SIZE_T readLen = (mbi.RegionSize < maxLen) ? mbi.RegionSize : maxLen;
-
-        std::string result(readLen, '\0');
-        memcpy(&result[0], reinterpret_cast<const void*>(potentialHeapPtr), readLen);
-
-        // Trim at null terminator if found
-        const size_t nullPos = result.find('\0');
-        if(nullPos != std::string::npos)
-            result.resize(nullPos);
-
-        return result;
+        return {};
     }
 
-    // 2. Fallback: assume inline or short string stored directly
-    char buffer[16] = { 0 };
-    const SIZE_T readLen = (mbi.RegionSize < sizeof(buffer)) ? mbi.RegionSize : sizeof(buffer);
-    memcpy(buffer, reinterpret_cast<const void*>(address), readLen);
+    // Helper lambda: validate ASCII-ish strings
+    auto looksLikeString = [](const char* data, size_t len) -> bool
+    {
+        size_t printableCount = 0;
 
-    const void* nullPtr = memchr(buffer, 0, readLen);
-    if(nullPtr)
-        return std::string(buffer, static_cast<const char*>(nullPtr) - buffer);
+        for(size_t i = 0; i < len; ++i)
+        {
+            unsigned char c = data[i];
+            if(c == '\0')
+                return printableCount >= 1;  // at least 1 printable char before null
 
-    // No null terminator found; return the full buffer content
-    return std::string(buffer, readLen);
+            if(c >= 32 && c <= 126) // normal ASCII printable
+                printableCount++;
+            else
+                return false; // non-printable → not a string
+        }
+
+        return false; // no null terminator within len
+    };
+
+    // 1. Attempt to interpret the memory as a pointer first
+    uintptr_t potentialPtr = 0;
+    memcpy(&potentialPtr, reinterpret_cast<const void*>(address), sizeof(uintptr_t));
+
+    if(potentialPtr)
+    {
+        MEMORY_BASIC_INFORMATION mbi2 = {};
+        if(VirtualQuery(reinterpret_cast<LPCVOID>(potentialPtr), &mbi2, sizeof(mbi2)) != 0 &&
+           mbi2.State == MEM_COMMIT &&
+           mbi2.RegionSize > 1)
+        {
+            const size_t readLen = std::min<size_t>(maxLen, mbi2.RegionSize);
+
+            // Temporary read buffer
+            char buffer[maxLen + 1] = {};
+            memcpy(buffer, reinterpret_cast<const void*>(potentialPtr), readLen);
+            buffer[maxLen] = '\0';
+
+            // Check for null terminator within readLen
+            const char* nullp = reinterpret_cast<const char*>(memchr(buffer, '\0', readLen));
+
+            if(nullp && looksLikeString(buffer, nullp - buffer + 1))
+            {
+                return std::string(buffer);
+            }
+        }
+    }
+
+    // 2. Fallback: interpret memory as an inline string
+    {
+        const size_t readLen = std::min<size_t>(maxLen, mbi.RegionSize);
+
+        char buffer[maxLen + 1] = {};
+        memcpy(buffer, reinterpret_cast<const void*>(address), readLen);
+        buffer[maxLen] = '\0';
+
+        const char* nullp = reinterpret_cast<const char*>(memchr(buffer, '\0', readLen));
+
+        if(nullp && looksLikeString(buffer, nullp - buffer + 1))
+        {
+            return std::string(buffer);
+        }
+    }
+
+    // If neither case looks like a string, return empty string
+    return {};
 }

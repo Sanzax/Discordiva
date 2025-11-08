@@ -55,7 +55,7 @@ void ConstructActivityData()
 
     if(!isPlaying)
     {
-        UpdateDiscordActivity("", STATE_NAMES[StateNames::InMenu], STATE_NAMES[StateNames::InMenu], "");
+        UpdateDiscordActivity("", STATE_NAMES[StateNames::InMenu], STATE_NAMES[StateNames::InMenu]);
         return;
     }
 
@@ -135,25 +135,29 @@ void ConstructActivityData()
 
     // Build details
     std::ostringstream details;
-    details << gameMode << modifier << difficultySs.str() << songName << u8" — " << artist
+
+    std::string artistSeparator = artist != "" ? u8" — " : " ";
+
+    details << gameMode << modifier << difficultySs.str() << songName << artistSeparator << artist
         << " | [" << FormatTime(elapsed) << " / " << FormatTime(maxDuration) << "]";
 
-    UpdateDiscordActivity(stateSs.str().c_str(), details.str().c_str(), smallText, songName.c_str());
+    UpdateDiscordActivity(stateSs.str().c_str(), details.str().c_str(), smallText);
     previousElapsedDuration = elapsed;
 }
 
-void UpdateDiscordActivity(const char* state, const char* details, const char* smallText, const char* songName)
+void UpdateDiscordActivity(const char* state, const char* details, const char* smallText)
 {
     activity.SetState(state);
     activity.SetDetails(details);
 
+    // Handle small image
     discord::ActivityAssets& assets = activity.GetAssets();
     try
     {
         const char* smallImageName = SMALL_IMAGE_NAMES.at(smallText).c_str();
         assets.SetSmallImage(smallImageName);
     }
-    catch(const std::out_of_range&)
+    catch(...)
     {
         assets.SetSmallImage(SMALL_IMAGE_NAMES.at(STATE_NAMES[StateNames::InMenu]).c_str());
     };

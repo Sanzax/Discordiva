@@ -12,6 +12,6 @@ bool IsDiscordInitialized();
 
 void ConstructActivityData();
 
-void UpdateDiscordActivity(const char* state, const char* details, const char* smallText, const char* songName);
+void UpdateDiscordActivity(const char* state, const char* details, const char* smallText);
 
 void ReleaseCore();
