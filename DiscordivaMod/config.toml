@@ -1,7 +1,0 @@
-enabled = true
-name = "Discordiva"
-description = "Adds Discord Rich Presence integration"
-version = "1.0"
-date = "8.11.2025"
-author = "Sanzax"
-dll = ["Discordiva.dll"]
