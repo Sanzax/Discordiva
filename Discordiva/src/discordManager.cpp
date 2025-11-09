@@ -78,7 +78,6 @@ void ConstructActivityData()
 
     bool isPaused = ReadNumberFromMemory<bool>(PAUSED_ADDRESS);
 
-    bool isNoFail = ReadNumberFromMemory<bool>(IS_NO_FAIL_ADDRESS);
     bool isPractice = ReadNumberFromMemory<bool>(IS_PRACTICE_ADDRESS);
     bool isMV = ReadNumberFromMemory<bool>(IS_MV_ADDRESS);
 
@@ -99,7 +98,7 @@ void ConstructActivityData()
     const char* gameMode = "";
     if(isMV)
     {
-        gameMode = "[MV] ";
+        gameMode = "[Music Video] ";
         stateSs.str("");
         stateSs.clear();
 
@@ -108,15 +107,8 @@ void ConstructActivityData()
     }
     else if(isPractice)
     {
-        gameMode = "[Practice] ";
-        stateSs.str("");
-        stateSs.clear();
+        gameMode = "[Practice/No Fail] ";
     }
-    else if(isNoFail)
-    {
-        gameMode = "[No Fail] ";
-    }
-
     bool isClear = clearPercentage >= border;
 
     // Determine state text
