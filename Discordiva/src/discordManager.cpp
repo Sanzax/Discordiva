@@ -63,7 +63,8 @@ void ConstructActivityData()
     std::string artist = ReadStringFromMemory(ARTIST_ADDRESS);
 
     int difficultyIndex = ReadNumberFromMemory<int>(DIFFICULTY_TYPE_ADDRESS);
-    const char* difficultyName = DIFFICULTY_TYPES[difficultyIndex];
+    bool isExtra = ReadNumberFromMemory<bool>(IS_EXTRA_ADDRESS);
+    const char* difficultyName = DIFFICULTY_TYPES[difficultyIndex+isExtra];
 
     int starAmountTimesTwo = ReadNumberFromMemory<int>(STAR_AMOUNT_ADDRESS);
     float starAmount = starAmountTimesTwo / 2.0f;

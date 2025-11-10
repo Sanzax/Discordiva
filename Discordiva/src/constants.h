@@ -6,7 +6,8 @@
 constexpr uintptr_t SONG_NAME_ADDRESS = 0x0CC0B5F8;
 constexpr uintptr_t ARTIST_ADDRESS = 0x0CC0B618;
 constexpr uintptr_t STAR_AMOUNT_ADDRESS = 0x016E2BFC;
-constexpr uintptr_t DIFFICULTY_TYPE_ADDRESS = 0x012B634C;
+constexpr uintptr_t DIFFICULTY_TYPE_ADDRESS = 0x016E2B90;
+constexpr uintptr_t IS_EXTRA_ADDRESS = 0x016E2B94;
 constexpr uintptr_t CLEAR_PERCENTAGE_ADDRESS = 0x012EF634;
 constexpr uintptr_t BORDER_ADDRESS = 0x012EF63C;
 constexpr uintptr_t SCORE_ADDRESS = 0x012EF568;
